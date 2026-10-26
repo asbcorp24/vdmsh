@@ -1,0 +1,2 @@
+<?php
+namespace App\Providers;use App\Models\MenuItem;use Illuminate\Support\Facades\View;use Illuminate\Support\ServiceProvider;class AppServiceProvider extends ServiceProvider{public function register():void{}public function boot():void{View::composer('layouts.app',function($view){$mainMenu=MenuItem::with(['page','children.page','children.children.page'])->whereNull('parent_id')->where('location','main')->where('is_active',true)->orderBy('sort')->get();$view->with('mainMenu',$mainMenu);});}}
