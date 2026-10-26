@@ -1,0 +1,2 @@
+<?php
+namespace App\Http\Controllers;use App\Models\News;class NewsController extends Controller{public function index(){return view('news.index',['items'=>News::published()->latest('published_at')->paginate(12)]);}public function show(News $news){abort_unless($news->is_published,404);return view('news.show',compact('news'));}}
