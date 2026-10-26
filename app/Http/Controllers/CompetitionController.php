@@ -1,0 +1,2 @@
+<?php
+namespace App\Http\Controllers;use App\Models\Competition;class CompetitionController extends Controller{public function index(){return view('competitions.index',['items'=>Competition::where('is_published',true)->latest('starts_at')->paginate(18)]);}public function show(Competition $competition){abort_unless($competition->is_published,404);return view('competitions.show',compact('competition'));}}
