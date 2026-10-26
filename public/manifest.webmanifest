@@ -1,0 +1,25 @@
+{
+  "name": "Детская школа искусств г. Волжска",
+  "short_name": "ДШИ Волжск",
+  "description": "Официальный сайт Детской школы искусств г. Волжска",
+  "lang": "ru",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f4f1eb",
+  "theme_color": "#18130f",
+  "icons": [
+    {
+      "src": "/icons/pwa-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/pwa-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
