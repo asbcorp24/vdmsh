@@ -37,15 +37,40 @@ Route::get('/p/{page:slug}',[PublicPage::class,'show'])->name('page.show');
 Route::middleware('guest')->group(function(){Route::get('/admin/login',[AdminAuth::class,'form'])->name('admin.login');Route::post('/admin/login',[AdminAuth::class,'login'])->name('admin.login.submit');});
 Route::prefix('admin')->name('admin.')->middleware(['auth','admin'])->group(function(){
  Route::get('/',AdminDashboard::class)->name('dashboard');
- Route::resource('news',AdminNews::class)->except('show');Route::resource('events',AdminEvent::class)->except('show');
- Route::resource('departments',AdminDepartment::class)->except('show');Route::resource('teachers',AdminTeacher::class)->except('show');Route::resource('programs',AdminProgram::class)->except('show');
- Route::resource('documents',AdminDocument::class)->except('show');Route::resource('pages',AdminPage::class)->except('show');
- Route::get('media',[AdminMedia::class,'index'])->name('media.index');Route::post('media',[AdminMedia::class,'store'])->name('media.store');Route::delete('media/{medium}',[AdminMedia::class,'destroy'])->name('media.destroy');
- Route::resource('achievements',AdminAchievement::class)->except('show');Route::get('settings',[AdminSetting::class,'edit'])->name('settings.edit');Route::put('settings',[AdminSetting::class,'update'])->name('settings.update');
- Route::resource('collectives',AdminCollective::class)->except('show');Route::resource('competitions',AdminCompetition::class)->except('show');Route::resource('galleries',AdminGallery::class)->except('show');
- Route::put('galleries/{gallery}/media/{medium}',[AdminGallery::class,'mediaUpdate'])->name('galleries.media.update');Route::delete('galleries/{gallery}/media/{medium}',[AdminGallery::class,'detach'])->name('galleries.media.detach');Route::delete('galleries/{gallery}/media/{medium}/file',[AdminGallery::class,'destroyMedia'])->name('galleries.media.destroy');
- Route::resource('menus',AdminMenu::class)->except('show');Route::patch('menus/{menu}/quick',[AdminMenu::class,'quick'])->name('menus.quick');
- Route::resource('schedule',AdminSchedule::class)->except('show');Route::resource('admission-campaigns',AdminAdmission::class)->except('show');Route::resource('feedback',AdminFeedback::class)->only(['index','show','update','destroy']);
+
+ Route::middleware('role:superadmin,admin,editor')->group(function(){
+  Route::resource('news',AdminNews::class)->except('show');
+  Route::resource('events',AdminEvent::class)->except('show');
+  Route::resource('documents',AdminDocument::class)->except('show');
+  Route::resource('pages',AdminPage::class)->except('show');
+  Route::get('media',[AdminMedia::class,'index'])->name('media.index');
+  Route::post('media',[AdminMedia::class,'store'])->name('media.store');
+  Route::delete('media/{medium}',[AdminMedia::class,'destroy'])->name('media.destroy');
+  Route::resource('galleries',AdminGallery::class)->except('show');
+  Route::put('galleries/{gallery}/media/{medium}',[AdminGallery::class,'mediaUpdate'])->name('galleries.media.update');
+  Route::delete('galleries/{gallery}/media/{medium}',[AdminGallery::class,'detach'])->name('galleries.media.detach');
+  Route::delete('galleries/{gallery}/media/{medium}/file',[AdminGallery::class,'destroyMedia'])->name('galleries.media.destroy');
+  Route::resource('feedback',AdminFeedback::class)->only(['index','show','update','destroy']);
+ });
+
+ Route::middleware('role:superadmin,admin,editor,teacher')->group(function(){
+  Route::resource('departments',AdminDepartment::class)->except('show');
+  Route::resource('teachers',AdminTeacher::class)->except('show');
+  Route::resource('programs',AdminProgram::class)->except('show');
+  Route::resource('achievements',AdminAchievement::class)->except('show');
+  Route::resource('collectives',AdminCollective::class)->except('show');
+  Route::resource('competitions',AdminCompetition::class)->except('show');
+  Route::resource('schedule',AdminSchedule::class)->except('show');
+  Route::resource('admission-campaigns',AdminAdmission::class)->except('show');
+ });
+
+ Route::middleware('role:superadmin,admin')->group(function(){
+  Route::resource('menus',AdminMenu::class)->except('show');
+  Route::patch('menus/{menu}/quick',[AdminMenu::class,'quick'])->name('menus.quick');
+  Route::get('settings',[AdminSetting::class,'edit'])->name('settings.edit');
+  Route::put('settings',[AdminSetting::class,'update'])->name('settings.update');
+ });
+
  Route::middleware('role:superadmin')->group(function(){Route::resource('users',AdminUser::class)->except('show');});
  Route::post('/logout',[AdminAuth::class,'logout'])->name('logout');
 });
