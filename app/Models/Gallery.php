@@ -1,0 +1,2 @@
+<?php
+namespace App\Models;use Illuminate\Database\Eloquent\Model;class Gallery extends Model{protected $fillable=['title','slug','description','cover','event_date','is_published'];protected $casts=['event_date'=>'date','is_published'=>'boolean'];}
