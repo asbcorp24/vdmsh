@@ -1,0 +1,2 @@
+<?php
+namespace App\Http\Controllers;use App\Models\FeedbackMessage;use Illuminate\Http\Request;class FeedbackController extends Controller{public function create(){return view('feedback.index');}public function store(Request $r){$d=$r->validate(['name'=>'required|max:255','email'=>'nullable|email|max:255','phone'=>'nullable|max:100','topic'=>'nullable|max:255','message'=>'required|max:5000','website'=>'nullable|max:0']);unset($d['website']);$d['status']='new';FeedbackMessage::create($d);return back()->with('sent','Обращение отправлено.');}}
