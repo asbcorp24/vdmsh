@@ -1,2 +1,2 @@
 <?php
-namespace App\Models;use Illuminate\Database\Eloquent\Model;class Document extends Model{protected $fillable=['title','category','file','published_at','sort','is_published'];protected $casts=['published_at'=>'date','is_published'=>'boolean'];}
+namespace App\Models;use Illuminate\Database\Eloquent\Model;class Document extends Model{protected $fillable=['title','description','number','document_date','category','file','published_at','sort','is_published'];protected $casts=['document_date'=>'date','published_at'=>'datetime','is_published'=>'boolean'];}
