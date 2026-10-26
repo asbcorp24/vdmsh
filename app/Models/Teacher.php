@@ -1,2 +1,2 @@
 <?php
-namespace App\Models;use Illuminate\Database\Eloquent\Model;class Teacher extends Model{protected $fillable=['department_id','name','position','bio','photo','sort','is_active'];public function department(){return $this->belongsTo(Department::class);}}
+namespace App\Models;use Illuminate\Database\Eloquent\Model;class Teacher extends Model{protected $fillable=['department_id','name','slug','position','bio','photo','education','qualification','experience_years','awards','sort','is_active'];protected $casts=['is_active'=>'boolean'];public function department(){return $this->belongsTo(Department::class);}public function getRouteKeyName(){return 'slug';}}
