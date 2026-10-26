@@ -1,0 +1,2 @@
+<?php
+namespace App\Http\Controllers;use App\Models\Collective;class CollectiveController extends Controller{public function __invoke(){return view('collectives.index',['items'=>Collective::where('is_active',true)->orderBy('sort')->get()]);}}
