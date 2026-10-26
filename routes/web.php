@@ -24,7 +24,7 @@ Route::get('/creative',CreativeController::class)->name('creative');
 Route::get('/schedule',ScheduleController::class)->name('schedule');
 Route::get('/search',SearchController::class)->name('search');
 Route::get('/feedback',[FeedbackController::class,'create'])->name('feedback');
-Route::post('/feedback',[FeedbackController::class,'store'])->name('feedback.store');
+Route::post('/feedback',[FeedbackController::class,'store'])->middleware('throttle:5,10')->name('feedback.store');
 Route::get('/programs',[PublicProgram::class,'index'])->name('programs.index');
 Route::get('/programs/{program}',[PublicProgram::class,'show'])->name('programs.show');
 Route::get('/departments',[PublicDepartment::class,'index'])->name('departments.index');
