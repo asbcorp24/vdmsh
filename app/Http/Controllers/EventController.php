@@ -1,0 +1,2 @@
+<?php
+namespace App\Http\Controllers;use App\Models\Event;class EventController extends Controller{public function index(){return view('events.index',['items'=>Event::published()->orderBy('starts_at')->paginate(12)]);}public function show(Event $event){abort_unless($event->is_published,404);return view('events.show',compact('event'));}}
