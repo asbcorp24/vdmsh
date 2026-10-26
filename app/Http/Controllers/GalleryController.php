@@ -1,2 +1,2 @@
 <?php
-namespace App\Http\Controllers;use App\Models\Gallery;class GalleryController extends Controller{public function index(){return view('galleries.index',['items'=>Gallery::where('is_published',true)->latest('event_date')->paginate(18)]);}}
+namespace App\Http\Controllers;use App\Models\Gallery;class GalleryController extends Controller{public function index(){return view('galleries.index',['items'=>Gallery::where('is_published',true)->withCount('media')->latest('event_date')->paginate(18)]);}public function show(Gallery $gallery){abort_unless($gallery->is_published,404);$gallery->load('media');return view('galleries.show',compact('gallery'));}}
