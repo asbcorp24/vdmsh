@@ -1,0 +1,2 @@
+<?php
+namespace App\Http\Controllers;use App\Models\{ScheduleItem,Department};use Illuminate\Http\Request;class ScheduleController extends Controller{public function __invoke(Request $r){$q=ScheduleItem::with(['department','teacher'])->where('is_active',true);if($r->filled('department'))$q->where('department_id',$r->integer('department'));return view('schedule.index',['days'=>$q->orderBy('weekday')->orderBy('starts_at')->get()->groupBy('weekday'),'departments'=>Department::where('is_active',true)->orderBy('sort')->get()]);}}
