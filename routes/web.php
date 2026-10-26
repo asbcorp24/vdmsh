@@ -43,7 +43,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth','admin'])->group(func
  Route::get('media',[AdminMedia::class,'index'])->name('media.index');Route::post('media',[AdminMedia::class,'store'])->name('media.store');Route::delete('media/{medium}',[AdminMedia::class,'destroy'])->name('media.destroy');
  Route::resource('achievements',AdminAchievement::class)->except('show');Route::get('settings',[AdminSetting::class,'edit'])->name('settings.edit');Route::put('settings',[AdminSetting::class,'update'])->name('settings.update');
  Route::resource('collectives',AdminCollective::class)->except('show');Route::resource('competitions',AdminCompetition::class)->except('show');Route::resource('galleries',AdminGallery::class)->except('show');
- Route::delete('galleries/{gallery}/media/{medium}',[AdminGallery::class,'detach'])->name('galleries.media.detach');
+ Route::put('galleries/{gallery}/media/{medium}',[AdminGallery::class,'mediaUpdate'])->name('galleries.media.update');Route::delete('galleries/{gallery}/media/{medium}',[AdminGallery::class,'detach'])->name('galleries.media.detach');Route::delete('galleries/{gallery}/media/{medium}/file',[AdminGallery::class,'destroyMedia'])->name('galleries.media.destroy');
  Route::resource('menus',AdminMenu::class)->except('show');Route::patch('menus/{menu}/quick',[AdminMenu::class,'quick'])->name('menus.quick');
  Route::resource('schedule',AdminSchedule::class)->except('show');Route::resource('admission-campaigns',AdminAdmission::class)->except('show');Route::resource('feedback',AdminFeedback::class)->only(['index','show','update','destroy']);
  Route::post('/logout',[AdminAuth::class,'logout'])->name('logout');
