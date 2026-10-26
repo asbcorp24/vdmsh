@@ -1,0 +1,2 @@
+<?php
+namespace App\Http\Controllers;use App\Models\Gallery;class GalleryController extends Controller{public function index(){return view('galleries.index',['items'=>Gallery::where('is_published',true)->latest('event_date')->paginate(18)]);}}
