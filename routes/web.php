@@ -1,7 +1,9 @@
 <?php
-use App\Http\Controllers\{HomeController,SchoolController,EducationController,DocumentsController,NewsController,EventController};
 use Illuminate\Support\Facades\Route;
-Route::get('/', HomeController::class)->name('home');
+use App\Http\Controllers\{HomeController,SchoolController,EducationController,DocumentsController,NewsController,EventController,PageController as PublicPage,AchievementController,CreativeController,CollectiveController,CompetitionController,ScheduleController,TeacherController as PublicTeacher,ContactController,DepartmentController as PublicDepartment,ProgramController as PublicProgram,SearchController,AdmissionController,FeedbackController,DownloadController,GalleryController};
+use App\Http\Controllers\Admin\{DepartmentController as AdminDepartment,TeacherController as AdminTeacher,ProgramController as AdminProgram,DocumentController as AdminDocument,PageController as AdminPage,MediaController as AdminMedia,CollectiveController as AdminCollective,CompetitionController as AdminCompetition,GalleryController as AdminGallery,MenuController as AdminMenu,ScheduleController as AdminSchedule,SettingController as AdminSetting,AchievementController as AdminAchievement,AuthController as AdminAuth,DashboardController as AdminDashboard,NewsController as AdminNews,EventController as AdminEvent,AdmissionCampaignController as AdminAdmission,FeedbackController as AdminFeedback};
+
+Route::get('/',HomeController::class)->name('home');
 Route::get('/school',[SchoolController::class,'index'])->name('school');
 Route::get('/education',EducationController::class)->name('education');
 Route::get('/admission',AdmissionController::class)->name('admission');
@@ -16,7 +18,10 @@ Route::get('/gallery',[GalleryController::class,'index'])->name('gallery');
 Route::get('/gallery/{gallery:slug}',[GalleryController::class,'show'])->name('gallery.show');
 Route::view('/methodical','methodical.index')->name('methodical');
 Route::get('/collectives',CollectiveController::class)->name('collectives');
-Route::get('/download/{path}',DownloadController::class)->where('path','.*')->name('download');
+Route::get('/competitions',[CompetitionController::class,'index'])->name('competitions');
+Route::get('/competitions/{competition:slug}',[CompetitionController::class,'show'])->name('competitions.show');
+Route::get('/creative',CreativeController::class)->name('creative');
+Route::get('/schedule',ScheduleController::class)->name('schedule');
 Route::get('/search',SearchController::class)->name('search');
 Route::get('/feedback',[FeedbackController::class,'create'])->name('feedback');
 Route::post('/feedback',[FeedbackController::class,'store'])->name('feedback.store');
@@ -26,46 +31,20 @@ Route::get('/departments',[PublicDepartment::class,'index'])->name('departments.
 Route::get('/departments/{department}',[PublicDepartment::class,'show'])->name('departments.show');
 Route::get('/teachers',[PublicTeacher::class,'index'])->name('teachers.index');
 Route::get('/teachers/{teacher}',[PublicTeacher::class,'show'])->name('teachers.show');
-Route::get('/schedule',ScheduleController::class)->name('schedule');
-Route::get('/competitions',[CompetitionController::class,'index'])->name('competitions');
-Route::get('/competitions/{competition:slug}',[CompetitionController::class,'show'])->name('competitions.show');
-Route::get('/creative',CreativeController::class)->name('creative');
-
-use App\Http\Controllers\Admin\DepartmentController as AdminDepartment;
-use App\Http\Controllers\Admin\TeacherController as AdminTeacher;
-use App\Http\Controllers\Admin\ProgramController as AdminProgram;
-use App\Http\Controllers\Admin\DocumentController as AdminDocument;
-use App\Http\Controllers\Admin\PageController as AdminPage;
-use App\Http\Controllers\Admin\MediaController as AdminMedia;
-use App\Http\Controllers\PageController as PublicPage;
-use App\Http\Controllers\AchievementController;
-use App\Http\Controllers\CreativeController;
-use App\Http\Controllers\CollectiveController;
-use App\Http\Controllers\CompetitionController;
-use App\Http\Controllers\Admin\CollectiveController as AdminCollective;
-use App\Http\Controllers\Admin\CompetitionController as AdminCompetition;
-use App\Http\Controllers\Admin\GalleryController as AdminGallery;
-use App\Http\Controllers\Admin\MenuController as AdminMenu;
-use App\Http\Controllers\ScheduleController;
-use App\Http\Controllers\TeacherController as PublicTeacher;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\DepartmentController as PublicDepartment;
-use App\Http\Controllers\ProgramController as PublicProgram;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\AdmissionController;
-use App\Http\Controllers\FeedbackController;
-use App\Http\Controllers\DownloadController;
-use App\Http\Controllers\Admin\AdmissionCampaignController as AdminAdmission;
-use App\Http\Controllers\Admin\FeedbackController as AdminFeedback;
-use App\Http\Controllers\Admin\ScheduleController as AdminSchedule;
-use App\Http\Controllers\Admin\SettingController as AdminSetting;
-use App\Http\Controllers\GalleryController;
-use App\Http\Controllers\Admin\AchievementController as AdminAchievement;
-use App\Http\Controllers\Admin\AuthController as AdminAuth;
-use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
-use App\Http\Controllers\Admin\NewsController as AdminNews;
-use App\Http\Controllers\Admin\EventController as AdminEvent;
-Route::middleware('guest')->group(function(){Route::get('/admin/login',[AdminAuth::class,'form'])->name('admin.login');Route::post('/admin/login',[AdminAuth::class,'login'])->name('admin.login.submit');});
-Route::prefix('admin')->name('admin.')->middleware(['auth','admin'])->group(function(){Route::get('/',AdminDashboard::class)->name('dashboard');Route::resource('news',AdminNews::class)->except('show');Route::resource('events',AdminEvent::class)->except('show');Route::resource('departments',AdminDepartment::class)->except('show');Route::resource('teachers',AdminTeacher::class)->except('show');Route::resource('programs',AdminProgram::class)->except('show');Route::resource('documents',AdminDocument::class)->except('show');Route::resource('pages',AdminPage::class)->except('show');Route::get('media',[AdminMedia::class,'index'])->name('media.index');Route::post('media',[AdminMedia::class,'store'])->name('media.store');Route::delete('media/{medium}',[AdminMedia::class,'destroy'])->name('media.destroy');Route::resource('achievements',AdminAchievement::class)->except('show');Route::get('settings',[AdminSetting::class,'edit'])->name('settings.edit');Route::put('settings',[AdminSetting::class,'update'])->name('settings.update');Route::resource('collectives',AdminCollective::class)->except('show');Route::resource('competitions',AdminCompetition::class)->except('show');Route::resource('galleries',AdminGallery::class)->except('show');Route::delete('galleries/{gallery}/media/{medium}',[AdminGallery::class,'detach'])->name('galleries.media.detach');Route::resource('menus',AdminMenu::class)->except('show');Route::patch('menus/{menu}/quick',[AdminMenu::class,'quick'])->name('menus.quick');Route::resource('schedule',AdminSchedule::class)->except('show');Route::resource('admission-campaigns',AdminAdmission::class)->except('show');Route::resource('feedback',AdminFeedback::class)->only(['index','show','update','destroy']);Route::post('/logout',[AdminAuth::class,'logout'])->name('logout');});
-
+Route::get('/download/{path}',DownloadController::class)->where('path','.*')->name('download');
 Route::get('/p/{page:slug}',[PublicPage::class,'show'])->name('page.show');
+
+Route::middleware('guest')->group(function(){Route::get('/admin/login',[AdminAuth::class,'form'])->name('admin.login');Route::post('/admin/login',[AdminAuth::class,'login'])->name('admin.login.submit');});
+Route::prefix('admin')->name('admin.')->middleware(['auth','admin'])->group(function(){
+ Route::get('/',AdminDashboard::class)->name('dashboard');
+ Route::resource('news',AdminNews::class)->except('show');Route::resource('events',AdminEvent::class)->except('show');
+ Route::resource('departments',AdminDepartment::class)->except('show');Route::resource('teachers',AdminTeacher::class)->except('show');Route::resource('programs',AdminProgram::class)->except('show');
+ Route::resource('documents',AdminDocument::class)->except('show');Route::resource('pages',AdminPage::class)->except('show');
+ Route::get('media',[AdminMedia::class,'index'])->name('media.index');Route::post('media',[AdminMedia::class,'store'])->name('media.store');Route::delete('media/{medium}',[AdminMedia::class,'destroy'])->name('media.destroy');
+ Route::resource('achievements',AdminAchievement::class)->except('show');Route::get('settings',[AdminSetting::class,'edit'])->name('settings.edit');Route::put('settings',[AdminSetting::class,'update'])->name('settings.update');
+ Route::resource('collectives',AdminCollective::class)->except('show');Route::resource('competitions',AdminCompetition::class)->except('show');Route::resource('galleries',AdminGallery::class)->except('show');
+ Route::delete('galleries/{gallery}/media/{medium}',[AdminGallery::class,'detach'])->name('galleries.media.detach');
+ Route::resource('menus',AdminMenu::class)->except('show');Route::patch('menus/{menu}/quick',[AdminMenu::class,'quick'])->name('menus.quick');
+ Route::resource('schedule',AdminSchedule::class)->except('show');Route::resource('admission-campaigns',AdminAdmission::class)->except('show');Route::resource('feedback',AdminFeedback::class)->only(['index','show','update','destroy']);
+ Route::post('/logout',[AdminAuth::class,'logout'])->name('logout');
+});
