@@ -1,0 +1,2 @@
+<?php
+namespace App\Http\Controllers;use App\Models\Achievement;class AchievementController extends Controller{public function __invoke(){return view('achievements.index',['items'=>Achievement::where('is_published',true)->latest('event_date')->paginate(18)]);}}
