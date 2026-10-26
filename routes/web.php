@@ -11,3 +11,10 @@ Route::get('/news',[NewsController::class,'index'])->name('news');
 Route::get('/news/{news:slug}',[NewsController::class,'show'])->name('news.show');
 Route::get('/documents',DocumentsController::class)->name('documents');
 Route::view('/contacts','contacts.index')->name('contacts');
+
+use App\Http\Controllers\Admin\AuthController as AdminAuth;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
+use App\Http\Controllers\Admin\NewsController as AdminNews;
+use App\Http\Controllers\Admin\EventController as AdminEvent;
+Route::middleware('guest')->group(function(){Route::get('/admin/login',[AdminAuth::class,'form'])->name('admin.login');Route::post('/admin/login',[AdminAuth::class,'login'])->name('admin.login.submit');});
+Route::prefix('admin')->name('admin.')->middleware(['auth','admin'])->group(function(){Route::get('/',AdminDashboard::class)->name('dashboard');Route::resource('news',AdminNews::class)->except('show');Route::resource('events',AdminEvent::class)->except('show');Route::post('/logout',[AdminAuth::class,'logout'])->name('logout');});
