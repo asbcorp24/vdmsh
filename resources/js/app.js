@@ -4,3 +4,8 @@ import './bootstrap';import * as THREE from 'three';const t=document.querySelect
 document.addEventListener('DOMContentLoaded', mountPageArt);
 
 document.addEventListener('DOMContentLoaded', mountSectionArt);
+
+const a11yButton=document.querySelector('[data-accessibility]');
+const applyA11y=()=>document.documentElement.classList.toggle('accessible',localStorage.getItem('vdmsh-accessible')==='1');
+applyA11y();
+a11yButton?.addEventListener('click',()=>{localStorage.setItem('vdmsh-accessible',document.documentElement.classList.contains('accessible')?'0':'1');applyA11y();});
