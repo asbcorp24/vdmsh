@@ -1,0 +1,2 @@
+<?php
+namespace App\Http\Controllers;use App\Models\Event;use App\Models\News;class HomeController extends Controller{public function __invoke(){return view('home',['news'=>News::published()->latest('published_at')->limit(3)->get(),'events'=>Event::published()->orderBy('starts_at')->limit(4)->get()]);}}
