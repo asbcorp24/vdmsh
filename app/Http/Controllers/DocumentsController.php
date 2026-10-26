@@ -1,0 +1,2 @@
+<?php
+namespace App\Http\Controllers;use App\Models\Document;class DocumentsController extends Controller{public function __invoke(){return view('documents.index',['groups'=>Document::where('is_published',true)->orderBy('sort')->get()->groupBy('category')]);}}
