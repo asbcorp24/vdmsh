@@ -1,0 +1,2 @@
+<?php
+namespace App\Models;use Illuminate\Database\Eloquent\Model;class Achievement extends Model{protected $fillable=['title','person','kind','competition','result','event_date','image','description','is_published'];protected $casts=['event_date'=>'date','is_published'=>'boolean'];}
