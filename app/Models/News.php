@@ -1,0 +1,2 @@
+<?php
+namespace App\Models;use Illuminate\Database\Eloquent\Model;class News extends Model{protected $fillable=['title','slug','excerpt','content','cover','published_at','is_published'];protected $casts=['published_at'=>'datetime','is_published'=>'boolean'];public function scopePublished($q){return $q->where('is_published',true)->where('published_at','<=',now());}}
