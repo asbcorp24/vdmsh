@@ -2,6 +2,7 @@
 @section('title',$page->meta_title ?: $page->title)
 @section('meta_description',$page->meta_description)
 @section('content')
+@include('partials.breadcrumbs',['page'=>$page])
 <section class="dynamic-page-hero">
  <div class="dynamic-page-copy">
   @if($page->parent)<a class="eyebrow" href="{{route('page.show',$page->parent)}}">{{$page->parent->title}}</a>@else<span class="eyebrow">Детская школа искусств</span>@endif
