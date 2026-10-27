@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\Admin;use App\Http\Controllers\Controller;use App\Models\{Event,EventPerformance,Media,Teacher};use Illuminate\Http\Request;use Illuminate\Support\Facades\Storage;
 class EventPerformanceController extends Controller{
- public function index(Event $event){return view('admin.events.performances',['event'=>$event,'items'=>$event->performances()->with(['teacher','media'])->get(),'teachers'=>Teacher::where('is_active',true)->orderBy('name')->get()]);}
+ public function index(Event $event){return view('admin.events.performances',['event'=>$event,'items'=>$event->allPerformances()->with(['teacher','media'])->get(),'teachers'=>Teacher::where('is_active',true)->orderBy('name')->get()]);}
  public function store(Request $r,Event $event){$d=$this->data($r);$d['event_id']=$event->id;$p=EventPerformance::create($d);$this->media($r,$p);return back()->with('ok','Выступление добавлено');}
  public function update(Request $r,Event $event,EventPerformance $performance){abort_unless($performance->event_id===$event->id,404);$performance->update($this->data($r));$this->remove($r,$performance);$this->media($r,$performance);return back()->with('ok','Выступление обновлено');}
  public function destroy(Event $event,EventPerformance $performance){abort_unless($performance->event_id===$event->id,404);foreach($performance->media as $m){if($m->file)Storage::disk('public')->delete($m->file);$m->delete();}$performance->delete();return back()->with('ok','Выступление удалено');}
