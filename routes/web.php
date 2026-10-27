@@ -17,6 +17,7 @@ Route::get('/documents/{page:slug}',[DocumentsController::class,'show'])->name('
 Route::get('/contacts',ContactController::class)->name('contacts');
 Route::get('/achievements',AchievementController::class)->name('achievements');
 Route::get('/gallery',[GalleryController::class,'index'])->name('gallery');
+Route::get('/music-library',MusicLibraryController::class)->name('music-library');
 Route::get('/gallery/{gallery:slug}',[GalleryController::class,'show'])->name('gallery.show');
 Route::view('/methodical','methodical.index')->name('methodical');
 Route::get('/collectives',CollectiveController::class)->name('collectives');
