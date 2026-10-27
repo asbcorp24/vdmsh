@@ -1,0 +1,3 @@
+<?php
+namespace App\Http\Controllers;use App\Models\Student;
+class StudentController extends Controller{public function index(){return view('students.index',['students'=>Student::where('is_active',true)->where('is_public',true)->with(['department','teacher'])->orderBy('sort')->orderBy('name')->get()]);}public function show(Student $student){abort_unless($student->is_active&&$student->is_public,404);$student->load(['department','teacher']);$performances=$student->performances()->orderByDesc('id')->get()->sortByDesc(fn($p)=>$p->event?->starts_at);return view('students.show',compact('student','performances'));}}
