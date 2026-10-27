@@ -157,3 +157,6 @@ html.accessible{font-size:20px}html.accessible body{background:#fff!important;co
  .global-music-player{bottom:88px!important}
 }
 @media(max-width:380px){.mobile-bottom-nav{left:4px;right:4px;bottom:4px;border-radius:17px}.mobile-bottom-nav span{font-size:9px}}
+
+
+.watch-concert{display:block;margin-top:14px;color:#9b743b;font-size:12px;text-transform:uppercase;letter-spacing:.08em}.concert-watch-btn{display:inline-block;margin:28px 0 15px;background:#b28a4a;border-color:#b28a4a;color:#17120e}.concert-program{scroll-margin-top:110px}
