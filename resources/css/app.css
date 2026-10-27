@@ -76,3 +76,13 @@ html.accessible{font-size:20px}html.accessible body{background:#fff!important;co
 @media(min-width:901px) and (max-width:1180px){
 .site-header{padding-left:24px;padding-right:24px}.main-menu>li>a{padding-left:9px;padding-right:9px;font-size:12px!important}.brand b{font-size:16px}
 }
+
+/* Compact desktop header v3 */
+@media(min-width:901px){
+.site-header{height:94px!important;grid-template-rows:52px 42px!important;padding-left:max(2.5vw,28px)!important;padding-right:max(2.5vw,28px)!important}
+.brand{gap:9px!important}.brand-mark{font-size:25px!important}.brand b{font-size:15px!important}.brand small{font-size:8px!important;margin-top:3px!important}
+.pwa-install{padding:6px 9px!important;font-size:11px!important}.accessibility-toggle,.header-search{width:32px!important;height:32px!important}
+.site-nav{height:42px!important}.main-menu{height:42px!important}.main-menu>li>a{height:42px!important;padding:0 clamp(9px,1vw,17px)!important;font-size:12px!important}
+.dropdown{top:42px!important}.hero{padding-top:128px!important}
+}
+@media(min-width:901px) and (max-width:1180px){.site-header{height:90px!important;grid-template-rows:50px 40px!important}.site-nav,.main-menu,.main-menu>li>a{height:40px!important}.dropdown{top:40px!important}.main-menu>li>a{font-size:11px!important;padding-left:7px!important;padding-right:7px!important}.hero{padding-top:120px!important}}
