@@ -1,0 +1,6 @@
+<?php
+use Illuminate\Database\Migrations\Migration;use Illuminate\Database\Schema\Blueprint;use Illuminate\Support\Facades\Schema;
+return new class extends Migration{public function up():void{
+ Schema::create('event_performances',function(Blueprint $t){$t->id();$t->foreignId('event_id')->constrained()->cascadeOnDelete();$t->foreignId('teacher_id')->nullable()->constrained()->nullOnDelete();$t->unsignedInteger('program_number')->default(1);$t->string('student_name');$t->string('student_class')->nullable();$t->string('title');$t->string('composer')->nullable();$t->string('instrument')->nullable();$t->string('accompanist')->nullable();$t->text('description')->nullable();$t->boolean('is_published')->default(true);$t->timestamps();});
+ Schema::create('event_performance_media',function(Blueprint $t){$t->foreignId('event_performance_id')->constrained()->cascadeOnDelete();$t->foreignId('media_id')->constrained('media')->cascadeOnDelete();$t->unsignedInteger('sort')->default(0);$t->primary(['event_performance_id','media_id']);});
+ }public function down():void{Schema::dropIfExists('event_performance_media');Schema::dropIfExists('event_performances');}};
