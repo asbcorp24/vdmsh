@@ -6,7 +6,7 @@ class HomeController extends Controller{
   return view('home',[
    'news'=>News::published()->latest('published_at')->limit(3)->get(),
    'events'=>Event::published()->upcoming()->orderBy('starts_at')->limit(4)->get(),
-   'concerts'=>Event::published()->past()->whereHas('performances.media')->with(['performances'])->latest('starts_at')->limit(4)->get(),
+   'concerts'=>Event::published()->past()->whereIn('event_type',['concert','choreography','performance'])->whereHas('performances.media')->with(['performances'])->latest('starts_at')->limit(4)->get(),
    'departments'=>Department::where('is_active',true)->orderBy('sort')->limit(6)->get(),
    'teachers'=>Teacher::where('is_active',true)->orderBy('sort')->limit(4)->get(),
    'achievements'=>Achievement::where('is_published',true)->latest('event_date')->limit(4)->get(),
