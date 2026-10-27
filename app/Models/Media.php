@@ -1,0 +1,2 @@
+<?php
+namespace App\Models;use Illuminate\Database\Eloquent\Model;use Illuminate\Database\Eloquent\Relations\BelongsToMany;class Media extends Model{protected $table='media';protected $fillable=['name','file','mime','size','alt','collection'];public function galleries():BelongsToMany{return $this->belongsToMany(Gallery::class,'gallery_media')->withPivot('sort');}}

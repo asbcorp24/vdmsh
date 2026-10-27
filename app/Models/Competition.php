@@ -1,0 +1,2 @@
+<?php
+namespace App\Models;use Illuminate\Database\Eloquent\Model;class Competition extends Model{protected $fillable=['title','slug','kind','description','place','starts_at','ends_at','document','image','is_published'];protected $casts=['starts_at'=>'datetime','ends_at'=>'datetime','is_published'=>'boolean'];}

@@ -1,0 +1,1 @@
+@extends('layouts.app') @section('title',$title.' — ДШИ г. Волжска') @section('content')<section class="page-hero"><span class="eyebrow">Детская школа искусств</span><h1>{{$title}}</h1><p>Раздел подключён к новой структуре сайта и наполняется материалами школы.</p></section>@endsection

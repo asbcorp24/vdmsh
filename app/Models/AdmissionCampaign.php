@@ -1,0 +1,2 @@
+<?php
+namespace App\Models;use Illuminate\Database\Eloquent\Model;class AdmissionCampaign extends Model{protected $fillable=['title','status','starts_at','ends_at','announcement','content','is_active'];protected $casts=['starts_at'=>'date','ends_at'=>'date','is_active'=>'boolean'];}

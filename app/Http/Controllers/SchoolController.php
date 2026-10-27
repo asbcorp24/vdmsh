@@ -1,0 +1,2 @@
+<?php
+namespace App\Http\Controllers;use App\Models\Department;use App\Models\Teacher;class SchoolController extends Controller{public function index(){return view('school.index',['departments'=>Department::where('is_active',true)->orderBy('sort')->get(),'teachers'=>Teacher::where('is_active',true)->orderBy('sort')->limit(8)->get()]);}}

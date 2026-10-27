@@ -1,0 +1,12 @@
+<?php
+namespace App\Http\Controllers\Admin;use App\Http\Controllers\Controller;use App\Models\Page;use Illuminate\Http\Request;use Illuminate\Support\Str;
+class PageController extends Controller{
+ public function index(){return view('admin.pages.index',['items'=>Page::with('parent')->orderBy('parent_id')->orderBy('sort')->paginate(50)]);}
+ public function create(){return $this->form(new Page);} public function store(Request $r){Page::create($this->data($r));return redirect()->route('admin.pages.index')->with('ok','Страница создана');}
+ public function edit(Page $page){return $this->form($page);} public function update(Request $r,Page $page){$d=$this->data($r,$page);if(!empty($d['parent_id']))abort_if($this->descendantIds($page)->contains((int)$d['parent_id']),422,'Нельзя переместить страницу внутрь её потомка.');$page->update($d);return redirect()->route('admin.pages.index')->with('ok','Страница обновлена');}
+ public function destroy(Page $page){abort_if($page->children()->exists(),422,'Сначала переместите или удалите дочерние страницы.');$page->delete();return back();}
+ private function form(Page $item){$blocked=$item->exists?$this->descendantIds($item)->push($item->id):collect();return view('admin.pages.form',['item'=>$item,'parents'=>Page::whereNotIn('id',$blocked)->orderBy('title')->get()]);}
+ private function data(Request $r,?Page $item=null){$d=$r->validate(['parent_id'=>'nullable|exists:pages,id','title'=>'required|max:255','section'=>'nullable|max:100','template'=>'required|in:default,wide,landing','excerpt'=>'nullable','content'=>'nullable','meta_title'=>'nullable|max:255','meta_description'=>'nullable|max:500','sort'=>'nullable|integer']);if($item&&!empty($d['parent_id']))abort_if((int)$d['parent_id']===$item->id,422,'Страница не может быть родителем самой себе.');$d['slug']=$this->slug($r->input('slug')?:$d['title'],$item?->id);$d['is_published']=$r->boolean('is_published');return $d;}
+ private function slug($v,$ignore=null){$base=Str::slug($v)?:'page';$s=$base;$i=2;while(Page::where('slug',$s)->when($ignore,fn($q)=>$q->where('id','!=',$ignore))->exists())$s=$base.'-'.$i++;return $s;}
+ private function descendantIds(Page $item){$ids=collect();$queue=Page::where('parent_id',$item->id)->pluck('id');while($queue->isNotEmpty()){$ids=$ids->merge($queue);$queue=Page::whereIn('parent_id',$queue)->pluck('id');}return $ids;}
+}

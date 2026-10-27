@@ -1,0 +1,2 @@
+<?php
+namespace App\Models;use Illuminate\Database\Eloquent\Model;class Department extends Model{protected $fillable=['name','slug','lead','head','description','image','sort','is_active'];protected $casts=['is_active'=>'boolean'];public function teachers(){return $this->hasMany(Teacher::class)->where('is_active',true)->orderBy('sort');}public function programs(){return $this->hasMany(Program::class)->where('is_active',true)->orderBy('sort');}public function getRouteKeyName(){return 'slug';}}

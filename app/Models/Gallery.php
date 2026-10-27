@@ -1,0 +1,2 @@
+<?php
+namespace App\Models;use Illuminate\Database\Eloquent\Model;use Illuminate\Database\Eloquent\Relations\BelongsToMany;class Gallery extends Model{protected $fillable=['title','slug','description','cover','event_date','is_published'];protected $casts=['event_date'=>'date','is_published'=>'boolean'];public function media():BelongsToMany{return $this->belongsToMany(Media::class,'gallery_media')->withPivot('sort')->orderByPivot('sort');}}

@@ -1,0 +1,2 @@
+<?php
+namespace App\Http\Controllers;use App\Models\Department;use App\Models\Program;class EducationController extends Controller{public function __invoke(){return view('education.index',['departments'=>Department::where('is_active',true)->orderBy('sort')->get(),'programs'=>Program::where('is_active',true)->orderBy('sort')->get()]);}}

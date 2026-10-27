@@ -1,0 +1,4 @@
+<?php
+namespace App\Providers;
+use App\Models\{MenuItem,Setting};use Illuminate\Support\Facades\View;use Illuminate\Support\ServiceProvider;
+class AppServiceProvider extends ServiceProvider{public function register():void{}public function boot():void{View::composer('layouts.app',function($view){$load=function($location){return MenuItem::with(['page','children.page','children.children.page'])->whereNull('parent_id')->where('location',$location)->where('is_active',true)->orderBy('sort')->get();};$settings=Setting::pluck('value','key');$view->with(['mainMenu'=>$load('main'),'footerMenu'=>$load('footer'),'siteSettings'=>$settings]);});}}

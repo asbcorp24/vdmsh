@@ -1,0 +1,2 @@
+<?php
+namespace App\Http\Controllers;use App\Models\{Department,Program};class DepartmentController extends Controller{public function index(){return view('departments.index',['items'=>Department::where('is_active',true)->orderBy('sort')->get()]);}public function show(Department $department){abort_unless($department->is_active,404);$department->load(['teachers','programs']);return view('departments.show',compact('department'));}}

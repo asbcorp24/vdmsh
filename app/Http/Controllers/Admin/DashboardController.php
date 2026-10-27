@@ -1,0 +1,2 @@
+<?php
+namespace App\Http\Controllers\Admin;use App\Http\Controllers\Controller;use App\Models\{News,Event,Teacher,Department,Document,Page};class DashboardController extends Controller{public function __invoke(){return view('admin.dashboard',['counts'=>['Новости'=>News::count(),'События'=>Event::count(),'Преподаватели'=>Teacher::count(),'Отделения'=>Department::count(),'Документы'=>Document::count(),'Страницы'=>Page::count()],'latest'=>News::latest()->limit(5)->get()]);}}
