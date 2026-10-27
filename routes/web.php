@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{HomeController,SchoolController,EducationController,DocumentsController,NewsController,EventController,PageController as PublicPage,AchievementController,CreativeController,CollectiveController,CompetitionController,ScheduleController,TeacherController as PublicTeacher,ContactController,DepartmentController as PublicDepartment,ProgramController as PublicProgram,SearchController,AdmissionController,FeedbackController,DownloadController,GalleryController};
-use App\Http\Controllers\Admin\{DepartmentController as AdminDepartment,TeacherController as AdminTeacher,ProgramController as AdminProgram,DocumentController as AdminDocument,PageController as AdminPage,MediaController as AdminMedia,CollectiveController as AdminCollective,CompetitionController as AdminCompetition,GalleryController as AdminGallery,MenuController as AdminMenu,ScheduleController as AdminSchedule,SettingController as AdminSetting,AchievementController as AdminAchievement,AuthController as AdminAuth,DashboardController as AdminDashboard,NewsController as AdminNews,EventController as AdminEvent,AdmissionCampaignController as AdminAdmission,FeedbackController as AdminFeedback,UserController as AdminUser,MusicController as AdminMusic};
+use App\Http\Controllers\{HomeController,SchoolController,EducationController,DocumentsController,NewsController,EventController,PageController as PublicPage,AchievementController,CreativeController,CollectiveController,CompetitionController,ScheduleController,TeacherController as PublicTeacher,ContactController,DepartmentController as PublicDepartment,ProgramController as PublicProgram,SearchController,AdmissionController,FeedbackController,DownloadController,GalleryController,MusicLibraryController};
+use App\Http\Controllers\Admin\{DepartmentController as AdminDepartment,TeacherController as AdminTeacher,ProgramController as AdminProgram,DocumentController as AdminDocument,PageController as AdminPage,MediaController as AdminMedia,CollectiveController as AdminCollective,CompetitionController as AdminCompetition,GalleryController as AdminGallery,MenuController as AdminMenu,ScheduleController as AdminSchedule,SettingController as AdminSetting,AchievementController as AdminAchievement,AuthController as AdminAuth,DashboardController as AdminDashboard,NewsController as AdminNews,EventController as AdminEvent,AdmissionCampaignController as AdminAdmission,FeedbackController as AdminFeedback,UserController as AdminUser,MusicController as AdminMusic,MusicLibraryController as AdminMusicLibrary};
 
 Route::get('/',HomeController::class)->name('home');
 Route::get('/school',[SchoolController::class,'index'])->name('school');
@@ -55,6 +55,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth','admin'])->group(func
   Route::delete('galleries/{gallery}/media/{medium}/file',[AdminGallery::class,'destroyMedia'])->name('galleries.media.destroy');
   Route::resource('feedback',AdminFeedback::class)->only(['index','show','update','destroy']);
   Route::resource('music',AdminMusic::class)->only(['index','store','update','destroy']);
+  Route::get('music-library',[AdminMusicLibrary::class,'index'])->name('music-library.index');
+  Route::post('music-library/compositions',[AdminMusicLibrary::class,'storeComposition'])->name('music-library.compositions.store');
+  Route::delete('music-library/compositions/{composition}',[AdminMusicLibrary::class,'destroyComposition'])->name('music-library.compositions.destroy');
+  Route::post('music-library/sheets',[AdminMusicLibrary::class,'storeSheet'])->name('music-library.sheets.store');
+  Route::delete('music-library/sheets/{sheet}',[AdminMusicLibrary::class,'destroySheet'])->name('music-library.sheets.destroy');
  });
 
  Route::middleware('role:superadmin,admin,editor,teacher')->group(function(){
