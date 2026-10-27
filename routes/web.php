@@ -22,6 +22,7 @@ Route::get('/collectives',CollectiveController::class)->name('collectives');
 Route::get('/competitions',[CompetitionController::class,'index'])->name('competitions');
 Route::get('/competitions/{competition:slug}',[CompetitionController::class,'show'])->name('competitions.show');
 Route::get('/creative',CreativeController::class)->name('creative');
+Route::get('/choreography',ChoreographyController::class)->name('choreography');
 Route::get('/schedule',ScheduleController::class)->name('schedule');
 Route::get('/search',SearchController::class)->name('search');
 Route::get('/feedback',[FeedbackController::class,'create'])->name('feedback');
