@@ -1,0 +1,8 @@
+<?php
+use Illuminate\Database\Migrations\Migration;use Illuminate\Database\Schema\Blueprint;use Illuminate\Support\Facades\{Schema,DB};
+return new class extends Migration{public function up():void{
+ Schema::create('event_performance_students',function(Blueprint $t){$t->foreignId('event_performance_id')->constrained()->cascadeOnDelete();$t->foreignId('student_id')->constrained()->cascadeOnDelete();$t->string('role')->nullable();$t->unsignedInteger('sort')->default(0);$t->primary(['event_performance_id','student_id']);});
+ Schema::create('event_performance_teachers',function(Blueprint $t){$t->foreignId('event_performance_id')->constrained()->cascadeOnDelete();$t->foreignId('teacher_id')->constrained()->cascadeOnDelete();$t->string('role')->nullable();$t->unsignedInteger('sort')->default(0);$t->primary(['event_performance_id','teacher_id']);});
+ Schema::create('event_performance_guests',function(Blueprint $t){$t->id();$t->foreignId('event_performance_id')->constrained()->cascadeOnDelete();$t->string('name');$t->string('role')->nullable();$t->string('organization')->nullable();$t->unsignedInteger('sort')->default(0);$t->timestamps();});
+ foreach(DB::table('event_performances')->get() as $p){if($p->student_id)DB::table('event_performance_students')->insertOrIgnore(['event_performance_id'=>$p->id,'student_id'=>$p->student_id,'role'=>'Исполнитель','sort'=>0]);if($p->teacher_id)DB::table('event_performance_teachers')->insertOrIgnore(['event_performance_id'=>$p->id,'teacher_id'=>$p->teacher_id,'role'=>'Преподаватель','sort'=>0]);}
+ }public function down():void{Schema::dropIfExists('event_performance_guests');Schema::dropIfExists('event_performance_teachers');Schema::dropIfExists('event_performance_students');}};
