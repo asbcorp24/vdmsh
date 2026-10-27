@@ -6,8 +6,8 @@ export function mountSectionArt(){
   const key=host.closest('[data-art-variant]')?.dataset.artVariant||host.dataset.sectionArt||'news',p=palettes[key]||palettes.news;
   const renderer=new THREE.WebGLRenderer({alpha:true,antialias:devicePixelRatio<2});renderer.setPixelRatio(Math.min(devicePixelRatio,1.4));host.appendChild(renderer.domElement);
   const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(38,1,.1,50);camera.position.z=6;const g=new THREE.Group();scene.add(g);
-  const brass=new THREE.MeshStandardMaterial({color:p[0],metalness:.72,roughness:.26}),wood=new THREE.MeshStandardMaterial({color:p[1],metalness:.12,roughness:.68});
-  const add=(geo,mat=brass,pos=[0,0,0],rot=[0,0,0])=>{const m=new THREE.Mesh(geo,mat);m.position.set(...pos);m.rotation.set(...rot);g.add(m);return m};
+  const brass=new THREE.MeshBasicMaterial({color:p[0],wireframe:true,transparent:true,opacity:.52,blending:THREE.AdditiveBlending,depthWrite:false}),wood=new THREE.MeshBasicMaterial({color:p[0],wireframe:true,transparent:true,opacity:.18,blending:THREE.AdditiveBlending,depthWrite:false});
+  const add=(geo,mat=brass,pos=[0,0,0],rot=[0,0,0])=>{const wrap=new THREE.Group(),glow=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({color:p[0],wireframe:true,transparent:true,opacity:.09,blending:THREE.AdditiveBlending,depthWrite:false})),m=new THREE.Mesh(geo,mat);glow.scale.setScalar(1.02);wrap.add(glow,m);wrap.position.set(...pos);wrap.rotation.set(...rot);g.add(wrap);return wrap};
   if(key==='gallery'){for(let i=0;i<5;i++)add(new THREE.BoxGeometry(2-i*.22,1.25-i*.12,.045),i%2?wood:brass,[0,0,-i*.18],[.08*i,.18*i,.08*i])}
   else if(key==='events'||key==='competitions'){add(new THREE.TorusKnotGeometry(1.05,.08,120,14,2,3));add(new THREE.TorusGeometry(1.55,.025,10,100),wood,[0,0,-.2],[1.1,.2,.3])}
   else if(key==='teachers'){add(new THREE.CylinderGeometry(.05,.05,3.3,16),brass);add(new THREE.TorusGeometry(.75,.06,12,80),brass,[0,1.1,0],[0,0,0]);add(new THREE.TorusGeometry(.75,.06,12,80),brass,[0,-1.1,0],[0,0,0])}
