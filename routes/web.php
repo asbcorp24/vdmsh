@@ -35,7 +35,9 @@ Route::get('/teachers/{teacher}',[PublicTeacher::class,'show'])->name('teachers.
 Route::get('/download/{path}',DownloadController::class)->where('path','.*')->name('download');
 Route::get('/p/{page:slug}',[PublicPage::class,'show'])->name('page.show');
 
-Route::middleware('guest')->group(function(){Route::get('/admin/login',[AdminAuth::class,'form'])->name('admin.login');Route::post('/admin/login',[AdminAuth::class,'login'])->name('admin.login.submit');});
+Route::middleware('guest')->group(function(){Route::get('/admin/login',[AdminAuth::class,'form'])->name('login');Route::post('/admin/login',[AdminAuth::class,'login'])->name('admin.login.submit');});
+Route::get('/admin/login-page',fn()=>redirect()->route('login'))->name('admin.login');
+
 Route::prefix('admin')->name('admin.')->middleware(['auth','admin'])->group(function(){
  Route::get('/',AdminDashboard::class)->name('dashboard');
 
