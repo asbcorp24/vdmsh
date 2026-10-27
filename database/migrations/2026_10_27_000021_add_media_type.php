@@ -1,0 +1,3 @@
+<?php
+use Illuminate\Database\Migrations\Migration;use Illuminate\Database\Schema\Blueprint;use Illuminate\Support\Facades\Schema;
+return new class extends Migration{public function up():void{Schema::table('media',function(Blueprint $t){if(!Schema::hasColumn('media','media_type'))$t->string('media_type',30)->default('file')->after('provider');});}public function down():void{Schema::table('media',fn(Blueprint $t)=>$t->dropColumn('media_type'));}};
