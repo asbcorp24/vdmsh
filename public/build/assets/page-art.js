@@ -6,9 +6,9 @@ export function mountPageArt(){
  if(!host||matchMedia('(prefers-reduced-motion: reduce)').matches||navigator.connection?.saveData)return;
  const renderer=new THREE.WebGLRenderer({alpha:true,antialias:devicePixelRatio<2});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));host.appendChild(renderer.domElement);
  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(42,1,.1,100);camera.position.z=6;const group=new THREE.Group();scene.add(group);
- const brass=new THREE.MeshStandardMaterial({color:0xb9975b,metalness:.62,roughness:.3}),dark=new THREE.MeshStandardMaterial({color:0x211a14,metalness:.2,roughness:.6});
+ const brass=new THREE.MeshBasicMaterial({color:0xd9b36c,wireframe:true,transparent:true,opacity:.58,blending:THREE.AdditiveBlending,depthWrite:false}),dark=new THREE.MeshBasicMaterial({color:0x8d6b3f,wireframe:true,transparent:true,opacity:.24,blending:THREE.AdditiveBlending,depthWrite:false});
  const seed=parseInt(host.dataset.pageId||'1',10)||1,variant=seed%7;
- const add=(geo,mat=brass,pos=[0,0,0],rot=[0,0,0])=>{const m=new THREE.Mesh(geo,mat);m.position.set(...pos);m.rotation.set(...rot);group.add(m);return m};
+ const add=(geo,mat=brass,pos=[0,0,0],rot=[0,0,0])=>{const wrap=new THREE.Group(),glow=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({color:0xe7c785,wireframe:true,transparent:true,opacity:.10,blending:THREE.AdditiveBlending,depthWrite:false})),m=new THREE.Mesh(geo,mat);glow.scale.setScalar(1.018);wrap.add(glow,m);wrap.position.set(...pos);wrap.rotation.set(...rot);group.add(wrap);return wrap};
  const fallback=()=>{
   if(variant===0){for(let i=0;i<6;i++)add(new THREE.TorusGeometry(.55+i*.19,.025+i*.004,10,80),i%2?dark:brass,[0,0,-i*.08],[.65+i*.13,i*.41,.15*i])}
   else if(variant===1){for(let i=0;i<5;i++)add(new THREE.BoxGeometry(1.65-i*.13,1.05-i*.08,.04),i%2?dark:brass,[0,0,-i*.2],[i*.1,i*.17,i*.08])}
