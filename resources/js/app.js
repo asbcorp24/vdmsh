@@ -5,9 +5,9 @@ if(m&&!lightDevice&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
  const s=new THREE.Scene(),c=new THREE.PerspectiveCamera(42,innerWidth/innerHeight,.1,100),r=new THREE.WebGLRenderer({alpha:true,antialias:devicePixelRatio<2});
  r.setPixelRatio(Math.min(devicePixelRatio,1.6));r.setSize(innerWidth,innerHeight);m.appendChild(r.domElement);c.position.z=9;
  const g=new THREE.Group();g.position.set(3.15,-.05,0);g.rotation.set(-.08,-.28,.06);s.add(g);
- const brass=new THREE.MeshStandardMaterial({color:0xc7a05c,metalness:.78,roughness:.23});
- const dark=new THREE.MeshStandardMaterial({color:0x5e452a,metalness:.48,roughness:.38});
- const tube=(pts,rad=.055,mat=brass)=>{const curve=new THREE.CatmullRomCurve3(pts.map(([x,y,z=0])=>new THREE.Vector3(x,y,z)));const mesh=new THREE.Mesh(new THREE.TubeGeometry(curve,96,rad,10,false),mat);g.add(mesh);return mesh};
+ const brass=new THREE.MeshBasicMaterial({color:0xe1b96d,wireframe:true,transparent:true,opacity:.62,blending:THREE.AdditiveBlending,depthWrite:false});
+ const dark=new THREE.MeshBasicMaterial({color:0xb0844d,wireframe:true,transparent:true,opacity:.25,blending:THREE.AdditiveBlending,depthWrite:false});
+ const tube=(pts,rad=.055,mat=brass)=>{const curve=new THREE.CatmullRomCurve3(pts.map(([x,y,z=0])=>new THREE.Vector3(x,y,z))),geo=new THREE.TubeGeometry(curve,96,rad,10,false),wrap=new THREE.Group(),glow=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({color:0xffd98e,wireframe:true,transparent:true,opacity:.12,blending:THREE.AdditiveBlending,depthWrite:false})),mesh=new THREE.Mesh(geo,mat);glow.scale.setScalar(1.025);wrap.add(glow,mesh);g.add(wrap);return wrap};
  tube([[0,-2.65,0],[.35,-2.25,.08],[.42,-1.65,.03],[.12,-1.18,0],[-.45,-1.02,.06],[-.92,-1.22,.02],[-1.02,-1.7,0],[-.75,-2.02,.03],[-.25,-2.06,.08],[.15,-1.75,.04],[.25,-1.15,0],[.05,-.55,.04],[-.42,.05,.08],[-.62,.72,.02],[-.42,1.45,.06],[.05,2.28,.02],[.42,2.72,0],[.58,2.25,.04],[.42,1.55,.08],[-.05,.85,.03],[-.55,.32,0],[-.92,-.12,.05],[-.92,-.58,.02],[-.55,-.82,.05],[.05,-.78,.02],[.65,-.55,.06],[.92,-.1,.02],[.78,.38,0],[.3,.63,.04],[-.28,.58,.02]],.075);
  tube([[.13,1.95,-.02],[.05,1.1,.03],[-.02,.25,0],[-.04,-.65,.02],[-.02,-1.55,0],[.02,-2.38,.03]],.045,dark);
  const dot=new THREE.Mesh(new THREE.SphereGeometry(.14,24,16),brass);dot.position.set(.72,-1.42,.06);g.add(dot);
