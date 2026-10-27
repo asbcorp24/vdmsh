@@ -1,7 +1,10 @@
+import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js';
 import { mountSectionArt } from './three/section-art';
 import { mountPageArt } from './three/page-art';
 import './bootstrap';import * as THREE from 'three';const t=document.querySelector('[data-menu]'),n=document.getElementById('site-nav');t?.addEventListener('click',()=>{const open=n?.classList.toggle('open');t.setAttribute('aria-expanded',open?'true':'false')});const m=document.getElementById('hero-scene');const lightDevice=matchMedia('(max-width: 700px)').matches||navigator.connection?.saveData;
 if(m&&!lightDevice&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+ if(m.dataset.homeStl){const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(42,innerWidth/innerHeight,.1,100),renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.setSize(innerWidth,innerHeight);m.appendChild(renderer.domElement);camera.position.z=6;const material=new THREE.MeshBasicMaterial({color:0xe1b96d,wireframe:true,transparent:true,opacity:.68});new STLLoader().load(m.dataset.homeStl,geometry=>{geometry.center();geometry.computeBoundingBox();const size=new THREE.Vector3();geometry.boundingBox.getSize(size);const scale=4/Math.max(size.x,size.y,size.z,1);const mesh=new THREE.Mesh(geometry,material);mesh.scale.setScalar(scale);mesh.position.x=2.2;scene.add(mesh);const tick=()=>{mesh.rotation.y+=.003;mesh.rotation.x=.15+Math.sin(performance.now()*.0003)*.04;renderer.render(scene,camera);requestAnimationFrame(tick)};tick()});addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});}
+ else {
  const s=new THREE.Scene(),c=new THREE.PerspectiveCamera(42,innerWidth/innerHeight,.1,100),r=new THREE.WebGLRenderer({alpha:true,antialias:devicePixelRatio<2});
  r.setPixelRatio(Math.min(devicePixelRatio,1.6));r.setSize(innerWidth,innerHeight);m.appendChild(r.domElement);c.position.z=9;
  const g=new THREE.Group();g.position.set(3.15,-.05,0);g.rotation.set(-.08,-.28,.06);s.add(g);
@@ -16,7 +19,8 @@ if(m&&!lightDevice&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
  let mx=0,my=0;addEventListener('pointermove',e=>{mx=(e.clientX/innerWidth-.5)*.3;my=(e.clientY/innerHeight-.5)*.2});
  const tick=()=>{g.rotation.y+=.0018;g.rotation.x+=((-.08+my)-g.rotation.x)*.025;g.rotation.z+=((.06+mx*.35)-g.rotation.z)*.02;r.render(s,c);requestAnimationFrame(tick)};tick();
  addEventListener('resize',()=>{c.aspect=innerWidth/innerHeight;c.updateProjectionMatrix();r.setSize(innerWidth,innerHeight)})
-}
+}}
+
 document.addEventListener('DOMContentLoaded', mountPageArt);
 
 document.addEventListener('DOMContentLoaded', mountSectionArt);
