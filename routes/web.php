@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{HomeController,SchoolController,EducationController,DocumentsController,NewsController,EventController,PageController as PublicPage,AchievementController,CreativeController,CollectiveController,CompetitionController,ScheduleController,TeacherController as PublicTeacher,ContactController,DepartmentController as PublicDepartment,ProgramController as PublicProgram,SearchController,AdmissionController,FeedbackController,DownloadController,GalleryController,MusicLibraryController,ChoreographyController};
-use App\Http\Controllers\Admin\{DepartmentController as AdminDepartment,TeacherController as AdminTeacher,ProgramController as AdminProgram,DocumentController as AdminDocument,PageController as AdminPage,MediaController as AdminMedia,CollectiveController as AdminCollective,CompetitionController as AdminCompetition,GalleryController as AdminGallery,MenuController as AdminMenu,ScheduleController as AdminSchedule,SettingController as AdminSetting,AchievementController as AdminAchievement,AuthController as AdminAuth,DashboardController as AdminDashboard,NewsController as AdminNews,EventController as AdminEvent,AdmissionCampaignController as AdminAdmission,FeedbackController as AdminFeedback,UserController as AdminUser,MusicController as AdminMusic,MusicLibraryController as AdminMusicLibrary};
+use App\Http\Controllers\Admin\{DepartmentController as AdminDepartment,TeacherController as AdminTeacher,ProgramController as AdminProgram,DocumentController as AdminDocument,PageController as AdminPage,MediaController as AdminMedia,CollectiveController as AdminCollective,CompetitionController as AdminCompetition,GalleryController as AdminGallery,MenuController as AdminMenu,ScheduleController as AdminSchedule,SettingController as AdminSetting,AchievementController as AdminAchievement,AuthController as AdminAuth,DashboardController as AdminDashboard,NewsController as AdminNews,EventController as AdminEvent,EventPerformanceController as AdminEventPerformance,AdmissionCampaignController as AdminAdmission,FeedbackController as AdminFeedback,UserController as AdminUser,MusicController as AdminMusic,MusicLibraryController as AdminMusicLibrary};
 
 Route::get('/',HomeController::class)->name('home');
 Route::get('/school',[SchoolController::class,'index'])->name('school');
@@ -44,6 +44,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth','admin'])->group(func
  Route::middleware('role:superadmin,admin,editor')->group(function(){
   Route::resource('news',AdminNews::class)->except('show');
   Route::resource('events',AdminEvent::class)->except('show');
+  Route::get('events/{event}/performances',[AdminEventPerformance::class,'index'])->name('events.performances.index');
+  Route::post('events/{event}/performances',[AdminEventPerformance::class,'store'])->name('events.performances.store');
+  Route::put('events/{event}/performances/{performance}',[AdminEventPerformance::class,'update'])->name('events.performances.update');
+  Route::delete('events/{event}/performances/{performance}',[AdminEventPerformance::class,'destroy'])->name('events.performances.destroy');
   Route::resource('documents',AdminDocument::class)->except('show');
   Route::resource('pages',AdminPage::class)->except('show');
   Route::get('media',[AdminMedia::class,'index'])->name('media.index');
