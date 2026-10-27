@@ -4,6 +4,7 @@ use App\Http\Controllers\{HomeController,SchoolController,EducationController,Do
 use App\Http\Controllers\Admin\{DepartmentController as AdminDepartment,TeacherController as AdminTeacher,ProgramController as AdminProgram,DocumentController as AdminDocument,PageController as AdminPage,MediaController as AdminMedia,CollectiveController as AdminCollective,CompetitionController as AdminCompetition,GalleryController as AdminGallery,MenuController as AdminMenu,ScheduleController as AdminSchedule,SettingController as AdminSetting,AchievementController as AdminAchievement,AuthController as AdminAuth,DashboardController as AdminDashboard,NewsController as AdminNews,EventController as AdminEvent,EventPerformanceController as AdminEventPerformance,AdmissionCampaignController as AdminAdmission,FeedbackController as AdminFeedback,UserController as AdminUser,StudentController as AdminStudent,HomePageController as AdminHomePage,MusicController as AdminMusic,MusicLibraryController as AdminMusicLibrary};
 
 Route::get('/',HomeController::class)->name('home');
+Route::view('/privacy','legal.privacy')->name('privacy');
 Route::get('/school',[SchoolController::class,'index'])->name('school');
 Route::get('/education',EducationController::class)->name('education');
 Route::get('/admission',AdmissionController::class)->name('admission');
