@@ -32,6 +32,8 @@ Route::get('/departments',[PublicDepartment::class,'index'])->name('departments.
 Route::get('/departments/{department}',[PublicDepartment::class,'show'])->name('departments.show');
 Route::get('/teachers',[PublicTeacher::class,'index'])->name('teachers.index');
 Route::get('/teachers/{teacher}',[PublicTeacher::class,'show'])->name('teachers.show');
+Route::get('/students',[StudentController::class,'index'])->name('students.index');
+Route::get('/students/{student}',[StudentController::class,'show'])->name('students.show');
 Route::get('/download/{path}',DownloadController::class)->where('path','.*')->name('download');
 Route::get('/p/{page:slug}',[PublicPage::class,'show'])->name('page.show');
 
