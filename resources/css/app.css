@@ -179,3 +179,7 @@ html.accessible{font-size:20px}html.accessible body{background:#fff!important;co
 
 /* Sticky two-row desktop navigation */
 @media(min-width:901px){.site-header{position:sticky!important;top:0!important;left:0;right:0;z-index:2000!important;width:100%;background:#15110f!important;box-shadow:0 8px 24px #0002}.site-nav{overflow:visible!important}.main-menu{overflow:visible!important}.main-menu>li{position:relative}.main-menu .dropdown{z-index:2100!important}body:has(.site-header) .hero{margin-top:0!important}.site-header~main .hero{padding-top:40px!important}html{scroll-padding-top:140px}}
+
+/* Compact sticky navigation after scrolling: hide branding row, retain both menu rows */
+@media(min-width:901px){.site-header.is-compact{height:76px!important;grid-template-rows:0 76px!important;row-gap:0!important}.site-header.is-compact>.brand,.site-header.is-compact>.pwa-install,.site-header.is-compact>.accessibility-toggle,.site-header.is-compact>.header-search,.site-header.is-compact>.menu-toggle{visibility:hidden!important;opacity:0!important;pointer-events:none!important;height:0!important;overflow:hidden!important}.site-header.is-compact>.site-nav{grid-row:2!important;align-self:stretch!important}.site-header{transition:height .2s ease,box-shadow .2s ease}}
+@media(min-width:901px) and (max-width:1180px){.site-header.is-compact{height:74px!important;grid-template-rows:0 74px!important}}
