@@ -7,7 +7,7 @@ export function mountPageArt(){
  const renderer=new THREE.WebGLRenderer({alpha:true,antialias:devicePixelRatio<2});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));host.appendChild(renderer.domElement);
  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(42,1,.1,100);camera.position.z=6;const group=new THREE.Group();scene.add(group);
  const brass=new THREE.MeshBasicMaterial({color:0xd9b36c,wireframe:true,transparent:true,opacity:.58,blending:THREE.AdditiveBlending,depthWrite:false}),dark=new THREE.MeshBasicMaterial({color:0x8d6b3f,wireframe:true,transparent:true,opacity:.24,blending:THREE.AdditiveBlending,depthWrite:false});
- const seed=parseInt(host.dataset.pageId||'1',10)||1,variant=seed%7;
+ const seed=parseInt(host.dataset.pageId||'1',10)||1,variant=seed%7;const rotation=[host.dataset.rotX,host.dataset.rotY,host.dataset.rotZ].map(v=>THREE.MathUtils.degToRad(Number(v)||0));const zoom=Math.min(5,Math.max(.1,Number(host.dataset.modelZoom)||1));const color=/^#[0-9a-f]{6}$/i.test(host.dataset.modelColor||'')?host.dataset.modelColor:'#d9b36c';brass.color.set(color);dark.color.set(color);
  const add=(geo,mat=brass,pos=[0,0,0],rot=[0,0,0])=>{const wrap=new THREE.Group(),glow=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({color:0xe7c785,wireframe:true,transparent:true,opacity:.10,blending:THREE.AdditiveBlending,depthWrite:false})),m=new THREE.Mesh(geo,mat);glow.scale.setScalar(1.018);wrap.add(glow,m);wrap.position.set(...pos);wrap.rotation.set(...rot);group.add(wrap);return wrap};
  const fallback=()=>{
   if(variant===0){for(let i=0;i<6;i++)add(new THREE.TorusGeometry(.55+i*.19,.025+i*.004,10,80),i%2?dark:brass,[0,0,-i*.08],[.65+i*.13,i*.41,.15*i])}
@@ -19,10 +19,11 @@ export function mountPageArt(){
   else {add(new THREE.SphereGeometry(.48,24,16),brass);for(let i=0;i<5;i++)add(new THREE.TorusGeometry(.75+i*.18,.025,10,80),i%2?dark:brass,[0,0,-i*.12],[i*.4,i*.31,i*.18])}
  };
  const stl=host.dataset.stl;
- if(stl){new STLLoader().load(stl,geo=>{geo.computeBoundingBox();geo.center();const size=new THREE.Vector3();geo.boundingBox?.getSize(size);const max=Math.max(size.x,size.y,size.z)||1;const mesh=add(geo,brass);mesh.scale.setScalar(3/max);mesh.rotation.set(-.25,.35,.08)},undefined,()=>fallback())}else fallback();
+ if(stl){new STLLoader().load(stl,geo=>{geo.computeBoundingBox();geo.center();const size=new THREE.Vector3();geo.boundingBox?.getSize(size);const max=Math.max(size.x,size.y,size.z)||1;const mesh=add(geo,brass);mesh.scale.setScalar(3/max)},undefined,()=>fallback())}else fallback();
+ group.scale.setScalar(zoom);group.rotation.set(...rotation);
  scene.add(new THREE.AmbientLight(0xffffff,2));const light=new THREE.DirectionalLight(0xffe0ad,5);light.position.set(3,4,5);scene.add(light);
  const resize=()=>{const w=host.clientWidth,h=host.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()};resize();new ResizeObserver(resize).observe(host);
  let mx=0,my=0;host.addEventListener('pointermove',e=>{const b=host.getBoundingClientRect();mx=(e.clientX-b.left)/b.width-.5;my=(e.clientY-b.top)/b.height-.5});
- let frame;const tick=()=>{group.rotation.y+=.0025;group.rotation.x+=(my*.2-group.rotation.x)*.025;group.rotation.z+=(mx*.15-group.rotation.z)*.025;renderer.render(scene,camera);frame=requestAnimationFrame(tick)};tick();
+ let frame;const tick=()=>{group.rotation.y+=.0025;group.rotation.x+=(rotation[0]+my*.2-group.rotation.x)*.025;group.rotation.z+=(rotation[2]+mx*.15-group.rotation.z)*.025;renderer.render(scene,camera);frame=requestAnimationFrame(tick)};tick();
  document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelAnimationFrame(frame);else tick()});
 }
